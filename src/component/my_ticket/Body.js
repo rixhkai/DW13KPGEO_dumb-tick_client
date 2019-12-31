@@ -61,25 +61,11 @@ class Body extends Component {
      <Container maxWidth='lg'>
       <div className={classes.space}>
        <Typography className={classes.margin} style={{color: "#ff6666"}}>
-        Payment
+        My Ticket
        </Typography>
        <div className={classes.margin} style={{marginTop: "30px"}}>
-        <div style={{backgroundColor: "#ff6666", width: "450px"}}>
-         <Typography
-          className={classes.textP}
-          variant='h4'
-          style={{
-           paddingLeft: "150px",
-           paddingTop: "10px",
-           paddingBottom: "10px",
-           fontSize: "30px"
-          }}
-         >
-          Payment
-         </Typography>
-        </div>
         <div>
-         <Divider style={{height: "3px", backgroundColor: "#ff6666"}} />
+         <Divider style={{height: "5px", backgroundColor: "#ff6666"}} />
         </div>
         <div
          style={{

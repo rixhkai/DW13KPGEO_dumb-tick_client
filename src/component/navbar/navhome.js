@@ -146,7 +146,7 @@ export function PrimaryAppBar() {
    </MenuItem>
    <MenuItem className={classes.fontStyle}>Premium Account</MenuItem>
    <Divider />
-   <Link to='/new_story' style={{textDecoration: "none"}}>
+   <Link to='/myticket/:id' style={{textDecoration: "none"}}>
     <MenuItem className={classes.fontStyle}>My Ticket</MenuItem>
    </Link>
    <Link to='/order/:id' style={{textDecoration: "none"}}>

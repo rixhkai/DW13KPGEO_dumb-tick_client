@@ -14,7 +14,7 @@ export const MyTicket = () => {
     </AppBar>
    </div>
 
-   <div style={{marginTop: "100px"}}>
+   <div style={{marginTop: "120px"}}>
     <Grid>
      <Body />
     </Grid>

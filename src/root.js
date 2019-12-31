@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import {Category} from "./component/category/category";
 import {Details} from "./component/detail/detail";
 import {Payment} from "./component/payment.js/payment";
+import {MyTicket} from "./component/my_ticket/myticket";
 
 const Root = ({store}) => (
  <Provider store={store}>
@@ -14,6 +15,7 @@ const Root = ({store}) => (
     <Route path='/category/:id/events' component={Category} />
     <Route path='/detail' component={Details} />
     <Route path='/order/:id' component={Payment} />
+    <Route path='/myticket/:id' component={MyTicket} />
    </Switch>
   </Router>
  </Provider>
