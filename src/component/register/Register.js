@@ -4,8 +4,14 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
-import InputWithIcon from "./FormLogin";
 import {Grid, withStyles} from "@material-ui/core";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import axios from "axios";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 const styles = theme => ({
  modal: {
@@ -23,6 +29,9 @@ const styles = theme => ({
  },
  margin: {
   marginTop: 30
+ },
+ margin1: {
+  margin: theme.spacing(1)
  }
 });
 
@@ -32,26 +41,55 @@ class RegisterModal extends Component {
  constructor() {
   super();
   this.state = {
-   credentials: {email: "", password: ""},
+   hidden: true,
+   name: "",
+   email: "",
+   username: "",
+   password: "",
    setOpen: false,
    mode: "view"
   };
-  this.onChange = this.onChange.bind(this);
-  this.onSave = this.onSave.bind(this);
   this.handleEdit = this.handleEdit.bind(this);
  }
 
- onChange(event) {
-  const field = event.target.name;
-  const credentials = this.state.credentials;
-  credentials[field] = event.target.value;
-  return this.setState({credentials: credentials});
- }
+ handleChange = e => {
+  this.setState({[e.target.name]: e.target.value});
+ };
+ toggleShow = () => {
+  this.setState({hidden: !this.state.hidden});
+ };
 
- onSave(event) {
+ onSave = event => {
+  let form = {
+   name: this.state.name,
+   email: this.state.email,
+   username: this.state.username,
+   password: this.state.password
+  };
+  console.log(form);
   event.preventDefault();
-  this.props.actions.logInUser(this.state.credentials);
- }
+  axios
+   .post("http://localhost:5000/dumbtick/register", form)
+   .then(res => {
+    console.log(res);
+    localStorage.setItem("user_id", res.data.some.id);
+    localStorage.setItem("email", res.data.some.email);
+    localStorage.setItem("username", res.data.some.username);
+    localStorage.setItem("name", res.data.some.name);
+    localStorage.setItem("image", res.data.some.image);
+    localStorage.setItem("token", res.data.token);
+    console.log("login success");
+    if (window.location.pathname === "/") {
+     window.location.reload();
+    } else {
+     window.location.href = "/";
+    }
+    //   this.props.history.push("/");
+   })
+   .catch(err => {
+    console.log(err);
+   });
+ };
 
  handleEdit() {
   this.setState({mode: "edit"});
@@ -122,7 +160,116 @@ class RegisterModal extends Component {
            amazing event to your inbox.
           </p>
 
-          <InputWithIcon />
+          <div>
+           <div className={classes.margin1}>
+            <Grid align='center'>
+             <Grid item>
+              <TextField
+               style={{width: 280}}
+               inputProps={{style: {textAlign: "center"}}}
+               id='input-with-icon-grid'
+               label='name'
+               name='name'
+               value={this.state.name}
+               onChange={this.handleChange}
+               InputProps={{
+                endAdornment: (
+                 <InputAdornment position='start'>
+                  <InfoOutlinedIcon />
+                 </InputAdornment>
+                )
+               }}
+              />
+             </Grid>
+            </Grid>
+           </div>
+
+           <div className={classes.margin1}>
+            <Grid align='center'>
+             <Grid item>
+              <TextField
+               style={{width: 280}}
+               inputProps={{style: {textAlign: "center"}}}
+               id='input-with-icon-grid'
+               label='email'
+               name='email'
+               value={this.state.email}
+               onChange={this.handleChange}
+               InputProps={{
+                endAdornment: (
+                 <InputAdornment position='start'>
+                  <InfoOutlinedIcon />
+                 </InputAdornment>
+                )
+               }}
+              />
+             </Grid>
+            </Grid>
+           </div>
+
+           <div className={classes.margin1}>
+            <Grid align='center'>
+             <Grid item>
+              <TextField
+               style={{width: 280}}
+               inputProps={{style: {textAlign: "center"}}}
+               id='input-with-icon-grid'
+               label='username'
+               name='username'
+               value={this.state.username}
+               onChange={this.handleChange}
+               InputProps={{
+                endAdornment: (
+                 <InputAdornment position='start'>
+                  <InfoOutlinedIcon />
+                 </InputAdornment>
+                )
+               }}
+              />
+             </Grid>
+            </Grid>
+           </div>
+           <div className={classes.margin1}>
+            <Grid align='center'>
+             <TextField
+              style={{width: "280px"}}
+              label='password'
+              name='password'
+              type={this.state.hidden ? "password" : "text"}
+              value={this.state.password}
+              onChange={this.handleChange}
+              InputProps={{
+               endAdornment: (
+                <InputAdornment position='end'>
+                 <IconButton onClick={this.toggleShow}>
+                  {this.state.hidden ? (
+                   <VisibilityIcon />
+                  ) : (
+                   <VisibilityOffIcon />
+                  )}
+                 </IconButton>
+                </InputAdornment>
+               )
+              }}
+             />
+            </Grid>
+           </div>
+
+           <div className={classes.margin1}>
+            <Grid align='center'>
+             <Button
+              onClick={this.onSave}
+              style={{
+               marginTop: "30px",
+               color: "white",
+               backgroundColor: "black"
+              }}
+             >
+              Register
+             </Button>
+            </Grid>
+           </div>
+          </div>
          </Grid>
 
          <Grid item>

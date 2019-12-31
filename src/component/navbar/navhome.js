@@ -149,7 +149,7 @@ export function PrimaryAppBar() {
    <Link to='/new_story' style={{textDecoration: "none"}}>
     <MenuItem className={classes.fontStyle}>My Ticket</MenuItem>
    </Link>
-   <Link to='/stories' style={{textDecoration: "none"}}>
+   <Link to='/order/:id' style={{textDecoration: "none"}}>
     <MenuItem className={classes.fontStyle}>Payment</MenuItem>
    </Link>
    <MenuItem className={classes.fontStyle}>Add Event</MenuItem>
@@ -178,30 +178,35 @@ export function PrimaryAppBar() {
      <SearchIcon />
     </IconButton> */}
     <div className={classes.sectionMobile}></div>
-    <div className={classes.sectionDesktop}>
-     <div
-      className={classes.sectionDesktop}
-      style={{alignItems: "center", color: "black", textTransform: "none"}}
-     >
-      <Register />
+    {localStorage.getItem("token") ? (
+     <div className={classes.sectionDesktop}>
+      <IconButton
+       edge='end'
+       aria-label='account of current user'
+       aria-controls={menuId}
+       aria-haspopup='true'
+       onClick={handleProfileMenuOpen}
+       color='inherit'
+      >
+       <AccountCircle />
+      </IconButton>
      </div>
-     <div
-      className={classes.sectionDesktop}
-      style={{alignItems: "center", color: "black", textTransform: "none"}}
-     >
-      <Login />
+    ) : (
+     <div className={classes.sectionDesktop}>
+      <div
+       className={classes.sectionDesktop}
+       style={{alignItems: "center", color: "black", textTransform: "none"}}
+      >
+       <Register />
+      </div>
+      <div
+       className={classes.sectionDesktop}
+       style={{alignItems: "center", color: "black", textTransform: "none"}}
+      >
+       <Login />
+      </div>
      </div>
-     <IconButton
-      edge='end'
-      aria-label='account of current user'
-      aria-controls={menuId}
-      aria-haspopup='true'
-      onClick={handleProfileMenuOpen}
-      color='inherit'
-     >
-      <AccountCircle />
-     </IconButton>
-    </div>
+    )}
    </Toolbar>
    {renderMenu}
   </div>

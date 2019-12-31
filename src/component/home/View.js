@@ -43,7 +43,22 @@ export const LargeCard = props => {
     <CardMedia
      className={classes.imageLargeCard}
      image='https://gamebrott.com/wp-content/uploads/2016/03/esport-gb-57-768x480.jpg'
-    />
+    >
+     <div style={{textAlign: "end", paddingTop: "5px"}}>
+      <Typography
+       variant='caption'
+       position='absolute'
+       style={{
+        color: "black",
+        backgroundColor: "white",
+        padding: 5,
+        marginRight: "5px"
+       }}
+      >
+       300000
+      </Typography>
+     </div>
+    </CardMedia>
     <div align='start'>
      <Grid className={classes.largeCardPost}>
       <Grid>
