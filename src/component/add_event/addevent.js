@@ -4,17 +4,17 @@ import {PrimaryAppBar} from "../navbar/navhome";
 import {AppBar} from "@material-ui/core";
 import Body from "./Body";
 
-export const MyTicket = () => {
+export const AddEvent = () => {
  return (
-  <div>
-   <div style={{align: "center", paddingBottom: "120px"}}>
+  <div style={{backgroundColor: "#ffe6e6"}}>
+   <div style={{align: "center"}}>
     {/** NavBar */}
     <AppBar style={{backgroundColor: "#ff6666"}}>
      <PrimaryAppBar />
     </AppBar>
    </div>
 
-   <div>
+   <div style={{marginTop: "120px"}}>
     <Grid>
      <Body />
     </Grid>

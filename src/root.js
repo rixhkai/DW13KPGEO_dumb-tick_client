@@ -6,6 +6,7 @@ import {Category} from "./component/category/category";
 import {Details} from "./component/detail/detail";
 import {Payment} from "./component/payment.js/payment";
 import {MyTicket} from "./component/my_ticket/myticket";
+import {AddEvent} from "./component/add_event/addevent";
 
 const Root = ({store}) => (
  <Provider store={store}>
@@ -16,6 +17,7 @@ const Root = ({store}) => (
     <Route path='/detail' component={Details} />
     <Route path='/order/:id' component={Payment} />
     <Route path='/myticket/:id' component={MyTicket} />
+    <Route path='/addevent/:id' component={AddEvent} />
    </Switch>
   </Router>
  </Provider>

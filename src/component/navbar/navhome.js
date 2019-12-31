@@ -152,7 +152,9 @@ export function PrimaryAppBar() {
    <Link to='/order/:id' style={{textDecoration: "none"}}>
     <MenuItem className={classes.fontStyle}>Payment</MenuItem>
    </Link>
-   <MenuItem className={classes.fontStyle}>Add Event</MenuItem>
+   <Link to='/addevent/:id' style={{textDecoration: "none"}}>
+    <MenuItem className={classes.fontStyle}>Add Event</MenuItem>
+   </Link>
    <Divider />
    <MenuItem className={classes.fontStyle}>Logout</MenuItem>
    <Divider />
