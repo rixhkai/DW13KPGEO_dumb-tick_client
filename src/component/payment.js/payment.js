@@ -3,20 +3,20 @@ import Grid from "@material-ui/core/Grid";
 import {PrimaryAppBar} from "../navbar/navhome";
 import {AppBar} from "@material-ui/core";
 import Body from "./Body";
+import "../home/homes.css";
 
-export const Payment = () => {
+//prettier-ignore
+export const Payment = (props) => {
  return (
   <div>
-   <div style={{align: "center"}}>
+   <div className="primarys" style={{align: "center"}}>
     {/** NavBar */}
-    <AppBar style={{backgroundColor: "#ff6666"}}>
      <PrimaryAppBar />
-    </AppBar>
    </div>
 
    <div style={{marginTop: "100px"}}>
     <Grid>
-     <Body />
+     <Body id={props.match.params}/>
     </Grid>
    </div>
   </div>

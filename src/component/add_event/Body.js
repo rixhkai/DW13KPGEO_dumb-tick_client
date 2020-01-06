@@ -10,9 +10,10 @@ import {
 import {Grid, Divider} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import {withStyles} from "@material-ui/core/styles";
-import {LargeCard} from "./View";
+import LargeCard from "./View";
 import {connect} from "react-redux";
 import {Category} from "../../redux/action/HomeAct";
+import Footer from "../home/footer";
 
 const styles = theme => ({
  margin: {
@@ -60,108 +61,30 @@ class Body extends Component {
     <Grid>
      <Container maxWidth='lg'>
       <div className={classes.space}>
-       <Typography className={classes.margin} style={{color: "#ff6666"}}>
-        My Ticket
-       </Typography>
+       <h1 className='texts'>Add Event</h1>
        <div className={classes.margin} style={{marginTop: "30px"}}>
         <div>
-         <Divider style={{height: "5px", backgroundColor: "#ff6666"}} />
+         <Divider style={{height: "5px", backgroundColor: "rgb(27, 1, 54)"}} />
         </div>
-        <div
-         style={{
-          paddingTop: "30px",
-          paddingBottom: "30px",
-          paddingLeft: "50px",
-          paddingRight: "50px"
-         }}
-        >
-         <LargeCard />
-        </div>
+        <Container maxWidth='md'>
+         <div
+          style={{
+           paddingTop: "30px",
+           paddingBottom: "30px",
+           paddingLeft: "50px",
+           paddingRight: "50px"
+          }}
+         >
+          <LargeCard />
+         </div>
+        </Container>
        </div>
       </div>
      </Container>
 
      {/** footer */}
 
-     <Grid align='start' style={{backgroundColor: "#ff6666"}}>
-      <Container>
-       <Container maxWidth='lg' style={{display: "flex", textAlign: "start"}}>
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px",
-          textAlign: "start"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-       </Container>
-       <Divider
-        variant='fullwidth'
-        style={{width: "100%", backgroundColor: "white"}}
-       />
-       <br />
-       <Grid style={{color: "white"}}>
-        <Typography variant='body2' fontWight='bold'>
-         {" "}
-         Copyright 2018 Dumbtick
-        </Typography>
-
-        <Typography style={{color: "white"}} variant='h6' align='right'>
-         About &nbsp; &nbsp; &nbsp; Help &nbsp; &nbsp; &nbsp; Legal
-        </Typography>
-       </Grid>
-       <br />
-      </Container>
-     </Grid>
+     <Footer />
     </Grid>
    </div>
   );

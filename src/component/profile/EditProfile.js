@@ -12,6 +12,7 @@ import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
 const styles = theme => ({
  modal: {
@@ -41,11 +42,10 @@ class RegisterModal extends Component {
  constructor() {
   super();
   this.state = {
-   hidden: true,
    name: "",
    email: "",
-   username: "",
-   password: "",
+   phone: "",
+   img: "",
    setOpen: false,
    mode: "view"
   };
@@ -54,35 +54,28 @@ class RegisterModal extends Component {
  handleChange = e => {
   this.setState({[e.target.name]: e.target.value});
  };
- toggleShow = () => {
-  this.setState({hidden: !this.state.hidden});
- };
 
  onSave = event => {
   let form = {
    name: this.state.name,
    email: this.state.email,
-   username: this.state.username,
-   password: this.state.password
+   phone: this.state.phone,
+   image: this.state.img
   };
   console.log(form);
   event.preventDefault();
   axios
-   .post("http://localhost:5000/dumbtick/register", form)
+   .put(
+    `http://localhost:5000/dumbtick/profile/${localStorage.getItem("user_id")}`,
+    form
+   )
    .then(res => {
     console.log(res);
-    localStorage.setItem("user_id", res.data.some.id);
-    localStorage.setItem("email", res.data.some.email);
-    localStorage.setItem("username", res.data.some.username);
-    localStorage.setItem("name", res.data.some.name);
-    localStorage.setItem("image", res.data.some.image);
-    localStorage.setItem("token", res.data.token);
-    console.log("login success");
-    if (window.location.pathname === "/") {
-     window.location.reload();
-    } else {
-     window.location.href = "/";
-    }
+    localStorage.setItem("email", res.data.data.user.email);
+    localStorage.setItem("name", res.data.data.user.name);
+    localStorage.setItem("image", res.data.data.user.image);
+    console.log("edit success");
+
     //   this.props.history.push("/");
    })
    .catch(err => {
@@ -112,8 +105,20 @@ class RegisterModal extends Component {
   if (this.state.mode === "view") {
    return (
     <div>
-     <Button color='inherit' onClick={() => this.handleOpen()}>
-      Register
+     <Button
+      color='inherit'
+      variant='contained'
+      size='small'
+      style={{
+       backgroundColor: "rgb(27, 1, 54)",
+       color: "white",
+       height: "30px",
+       marginTop: "10px",
+       textTransform: "none"
+      }}
+      onClick={() => this.handleOpen()}
+     >
+      Edit Profile
      </Button>
      <Modal
       aria-labelledby='transition-modal-title'
@@ -151,14 +156,6 @@ class RegisterModal extends Component {
           style={{marginLeft: 29.1, marginInlineEnd: 28.19}}
          >
           <h2 id='transition-modal-title'>Register</h2>
-          <p
-           style={{maxWidth: "414.5px", color: "grey"}}
-           id='transition-modal-description'
-          >
-           Enter the username associated with your account, and we'll send a
-           amazing event to your inbox.
-          </p>
-
           <div>
            <div className={classes.margin1}>
             <Grid align='center'>
@@ -213,9 +210,9 @@ class RegisterModal extends Component {
                style={{width: 280}}
                inputProps={{style: {textAlign: "center"}}}
                id='input-with-icon-grid'
-               label='username'
-               name='username'
-               value={this.state.username}
+               label='Phone'
+               name='phone'
+               value={this.state.phone}
                onChange={this.handleChange}
                InputProps={{
                 endAdornment: (
@@ -232,21 +229,14 @@ class RegisterModal extends Component {
             <Grid align='center'>
              <TextField
               style={{width: "280px"}}
-              label='password'
-              name='password'
-              type={this.state.hidden ? "password" : "text"}
-              value={this.state.password}
+              label='Images'
+              name='img'
+              value={this.state.img}
               onChange={this.handleChange}
               InputProps={{
                endAdornment: (
                 <InputAdornment position='end'>
-                 <IconButton onClick={this.toggleShow}>
-                  {this.state.hidden ? (
-                   <VisibilityIcon />
-                  ) : (
-                   <VisibilityOffIcon />
-                  )}
-                 </IconButton>
+                 <InsertPhotoIcon />
                 </InputAdornment>
                )
               }}
@@ -264,7 +254,7 @@ class RegisterModal extends Component {
                backgroundColor: "black"
               }}
              >
-              Register
+              Save Change
              </Button>
             </Grid>
            </div>

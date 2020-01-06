@@ -1,25 +1,15 @@
 import React from "react";
 import {fade, makeStyles} from "@material-ui/core/styles";
-import {BootstrapButton} from "./button";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import Tooltip from "@material-ui/core/Tooltip";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import {Divider, Button} from "@material-ui/core";
+import {Divider, Button, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Login from "../login/Login";
 import Register from "../register/Register";
+import "./nav.css";
 
 const useStyles = makeStyles(theme => ({
  grow: {
@@ -113,6 +103,16 @@ export function PrimaryAppBar() {
   handleMobileMenuClose();
  };
 
+ const handleClick = () => {
+  localStorage.removeItem("user_id");
+  localStorage.removeItem("name");
+  localStorage.removeItem("email");
+  localStorage.removeItem("phone");
+  localStorage.removeItem("image");
+  localStorage.removeItem("token");
+  window.location.href = "/";
+ };
+
  const handleMobileMenuOpen = event => {
   setMobileMoreAnchorEl(event.currentTarget);
  };
@@ -130,51 +130,61 @@ export function PrimaryAppBar() {
    onClose={handleMenuClose}
   >
    <MenuItem style={{color: "grey", display: "flex"}}>
-    <Avatar
-     style={{marginRight: "15px"}}
-     src='https://cdn-images-1.medium.com/fit/c/40/40/0*6Gn7deEsomANxfdu'
-    ></Avatar>
+    <Avatar style={{marginRight: "15px"}} src={localStorage.getItem("image")} />
     <Link
-     to='profile'
+     to={`/profile/${localStorage.getItem("user_id")}`}
      className={classes.fontStyle}
      style={{textDecoration: "none", color: "grey"}}
     >
-     Rijal Abdullah
-     <br />
-     @rijallabdullah
+     {localStorage.getItem("name")}
+     <br />@{localStorage.getItem("name")}
     </Link>
    </MenuItem>
    <MenuItem className={classes.fontStyle}>Premium Account</MenuItem>
    <Divider />
-   <Link to='/myticket/:id' style={{textDecoration: "none"}}>
+   <Link
+    to={`/myticket/${localStorage.getItem("user_id")}`}
+    style={{textDecoration: "none"}}
+   >
     <MenuItem className={classes.fontStyle}>My Ticket</MenuItem>
    </Link>
-   <Link to='/order/:id' style={{textDecoration: "none"}}>
+   <Link
+    to={`/order/${localStorage.getItem("user_id")}`}
+    style={{textDecoration: "none"}}
+   >
     <MenuItem className={classes.fontStyle}>Payment</MenuItem>
    </Link>
    <Link to='/addevent/:id' style={{textDecoration: "none"}}>
     <MenuItem className={classes.fontStyle}>Add Event</MenuItem>
    </Link>
    <Divider />
-   <MenuItem className={classes.fontStyle}>Logout</MenuItem>
+   <MenuItem className={classes.fontStyle} onClick={handleClick}>
+    Logout
+   </MenuItem>
    <Divider />
   </Menu>
  );
 
  return (
   <div align='center'>
-   <Toolbar style={{backgroundColor: "#ff6666", color: "grey", width: "75%"}}>
-    <IconButton
+   <Toolbar className='primary' style={{color: "grey", width: "75%"}}>
+    <h1>
+     <a className='fontss-title' href='/' style={{textDecoration: "none"}}>
+      Get.Ticket
+     </a>
+    </h1>
+    {/* <IconButton
      className={classes.menuButton}
      color='inherit'
      aria-label='open drawer'
      href='/'
     >
      <img
+      style={{borderRadius: "5px"}}
       height='40px'
-      src='https://cdn.icon-icons.com/icons2/1584/PNG/512/3721675-medium_108052.png'
+      src='https://www.underconsideration.com/brandnew/archives/event_cinemas_logo.png'
      />
-    </IconButton>
+    </IconButton> */}
     <div className={classes.grow} />
     {/* <IconButton aria-label='search' color='inherit'>
      <SearchIcon />
@@ -190,7 +200,7 @@ export function PrimaryAppBar() {
        onClick={handleProfileMenuOpen}
        color='inherit'
       >
-       <AccountCircle />
+       <Avatar src={localStorage.getItem("image")} />
       </IconButton>
      </div>
     ) : (

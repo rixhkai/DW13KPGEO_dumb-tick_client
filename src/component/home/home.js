@@ -3,15 +3,14 @@ import Grid from "@material-ui/core/Grid";
 import {PrimaryAppBar} from "../navbar/navhome";
 import {AppBar} from "@material-ui/core";
 import Body from "./Body";
+import "./homes.css";
 
 export const Home = () => {
  return (
   <div>
-   <div style={{align: "center"}}>
+   <div className='primarys' style={{align: "center"}}>
     {/** NavBar */}
-    <AppBar style={{backgroundColor: "#ff6666"}}>
-     <PrimaryAppBar />
-    </AppBar>
+    <PrimaryAppBar />
    </div>
 
    <div style={{marginTop: "100px"}}>

@@ -1,0 +1,23 @@
+export const GET_CATS = "GET_CATEGORY";
+export const GET_CATS_FUL = "GET_CATEGORY_FULFILLED";
+
+export const GET_EVENT = "GET_EVENT";
+export const GET_EVENT_PEN = "GET_EVENT_PEN";
+export const GET_EVENT_FULFILLED = "GET_EVENT_FULFILLED";
+
+export const GET_DET = "GET_DETAIL";
+export const GET_DET_PEN = "GET_DETAIL_PENDING";
+export const GET_DET_FUL = "GET_DETAIL_FULFILLED";
+
+export const GET_PAY = "GET_PAYMENT";
+export const GET_PAY_PEN = "GET_PAYMENT_PENDING";
+export const GET_PAY_FUL = "GET_PAYMENT_FULFILLED";
+
+export const GET_TIC = "GET_TICKET";
+export const GET_TICK_PEN = "GET_TICKET_PENDING";
+export const GET_TICK_FUL = "GET_TICKET_FULFILLED";
+export const GET_TICK_REJ = "GET_TICKET_REJECTED";
+
+export const GET_PROF = "GET_PROFILE";
+export const GET_PROF_PEN = "GET_PROFILE_PENDING";
+export const GET_PROF_FUL = "GET_PROFILE_FULFILLED";

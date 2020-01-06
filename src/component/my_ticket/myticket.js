@@ -3,20 +3,19 @@ import Grid from "@material-ui/core/Grid";
 import {PrimaryAppBar} from "../navbar/navhome";
 import {AppBar} from "@material-ui/core";
 import Body from "./Body";
+import "../home/homes.css";
 
-export const MyTicket = () => {
+export const MyTicket = props => {
  return (
   <div>
-   <div style={{align: "center", paddingBottom: "120px"}}>
+   <div className='primarys' style={{align: "center"}}>
     {/** NavBar */}
-    <AppBar style={{backgroundColor: "#ff6666"}}>
-     <PrimaryAppBar />
-    </AppBar>
+    <PrimaryAppBar />
    </div>
 
    <div>
     <Grid>
-     <Body />
+     <Body id={props.match.params} />
     </Grid>
    </div>
   </div>

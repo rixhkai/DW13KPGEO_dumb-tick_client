@@ -5,14 +5,18 @@ import {
  InputAdornment,
  Typography,
  ButtonBase,
- Button
+ Button,
+ Paper,
+ Link
 } from "@material-ui/core";
 import {Grid, Divider} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import {withStyles} from "@material-ui/core/styles";
-import {LargeCard} from "./View";
 import {connect} from "react-redux";
-import {Category} from "../../redux/action/HomeAct";
+import {Category, Events} from "../../redux/action/HomeAct";
+import View from "./View";
+import "./homes.css";
+import Footer from "./footer";
 
 const styles = theme => ({
  margin: {
@@ -26,7 +30,7 @@ const styles = theme => ({
   marginBottom: "40px"
  },
  space2: {
-  display: "flex-center",
+  display: "flex",
   marginTop: "15px",
   marginBottom: "30px",
   flexWrap: "wrap"
@@ -43,11 +47,45 @@ const styles = theme => ({
 });
 
 class Body extends Component {
+ constructor() {
+  super();
+  this.state = {
+   search: ""
+  };
+ }
+
  componentDidMount() {
   console.log("get category");
   this.props.dispatch(Category());
+  this.props.dispatch(Events());
  }
+
+ handleChange = e => {
+  this.setState({[e.target.name]: e.target.value});
+ };
+
  render() {
+  const event = this.props.event.event;
+  const search = this.state.search;
+  const searchFilter = event.filter(event =>
+   event.title.toLowerCase().includes(search.toLowerCase())
+  ); //=== search);
+  const todayFilter = searchFilter.filter(searchFilter => {
+   const date = new Date(searchFilter.start_time);
+   const today = new Date();
+   return (
+    date.toString().substring(0, 10) === today.toString().substring(0, 10)
+   );
+  });
+  console.log(searchFilter);
+  const tomorrow = searchFilter.filter(searchFilter => {
+   const date = new Date(searchFilter.start_time);
+   const today = new Date();
+   const tom = new Date(today.getTime() + 86400000);
+   //  const tomorrow = tom.toLocaleDateString();
+   return date.toString().substring(0, 10) === tom.toString().substring(0, 10);
+  });
+
   const {classes} = this.props;
   return (
    <div align='center'>
@@ -56,6 +94,10 @@ class Body extends Component {
       <form>
        <TextField
         fullWidth
+        variant='outlined'
+        value={this.state.search}
+        name='search'
+        onChange={this.handleChange}
         placeholder='Search Event'
         InputProps={{
          endAdornment: (
@@ -67,207 +109,93 @@ class Body extends Component {
        />
       </form>
       <div className={classes.space}>
-       <Typography className={classes.margin}>Category</Typography>
+       <h1 className='texts' style={{textAlign: "start"}}>
+        Category
+       </h1>
        <div className={classes.space2}>
         {console.log(this.props.cates.cats)}
         {this.props.cates.cats.map(item => (
-         <Button
-          variant='contained'
-          size='large'
-          href={`/category/${item.id}/events`}
+         <Paper
+          elevation={1}
           style={{
-           marginRight: "30px",
-           width: "260px",
+           background: `url(${item.image})`,
+           backgroundSize: "cover",
+           marginRight: "20px",
+           width: "280px",
+           height: "100px",
            backgroundColor: "grey",
-           textTransform: "none"
+           borderRadius: "10px",
+           marginBottom: "20px"
           }}
          >
-          {item.name}
-         </Button>
+          <Link
+           href={`/category/${item.id}/events`}
+           style={{textDecoration: "none"}}
+          >
+           <h1
+            className='titles'
+            style={{
+             paddingTop: "10px",
+             fontWeight: "bold"
+            }}
+           >
+            {item.name}
+           </h1>
+          </Link>
+         </Paper>
         ))}
-
-        {/* <Button
-         variant='contained'
-         size='large'
-         style={{
-          marginRight: "30px",
-          width: "280px",
-          backgroundColor: "grey",
-          textTransform: "none"
-         }}
-        >
-         Music
-        </Button>
-        <Button
-         variant='contained'
-         size='large'
-         style={{
-          marginRight: "30px",
-          width: "280px",
-          backgroundColor: "grey",
-          textTransform: "none"
-         }}
-        >
-         Science
-        </Button>
-        <Button
-         variant='contained'
-         size='large'
-         style={{
-          width: "280px",
-          backgroundColor: "grey",
-          textTransform: "none"
-         }}
-        >
-         Programming
-        </Button> */}
        </div>
        <div className={classes.space}>
-        <Typography className={classes.margin}>Today</Typography>
+        <h1 className='texts' style={{textAlign: "start"}}>
+         Today
+        </h1>
         <div className={classes.space2}>
          <Grid container spacing={1}>
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
+          {todayFilter.map((item, index) => (
+           <Grid item xs={12} sm={6} md={4}>
+            <View
+             id={item.id}
+             title={item.title}
+             category={item.category}
+             startTime={item.start_time}
+             desc={item.description.substring(0, 180)}
+             img={item.img}
+             price={item.price}
+             favorite={item.favorite}
+            />
+           </Grid>
+          ))}
          </Grid>
         </div>
        </div>
 
        <div className={classes.space}>
-        <Typography className={classes.margin}>Upcoming Event</Typography>
+        <h1 className='texts' style={{textAlign: "start"}}>
+         Upcoming Events
+        </h1>
 
         <div className={classes.space2}>
          <Grid container spacing={1}>
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
+          {tomorrow.map((item, index) => (
+           <Grid item xs={12} sm={6} md={4}>
+            <View
+             id={item.id}
+             title={item.title}
+             category={item.category}
+             startTime={item.start_time}
+             desc={item.description.substring(0, 120)}
+             img={item.img}
+             price={item.price}
+             favorite={item.favorite}
+            />
+           </Grid>
+          ))}
          </Grid>
         </div>
        </div>
       </div>
      </Container>
-
-     {/** footer */}
-
-     <Grid align='start' style={{backgroundColor: "#ff6666"}}>
-      <Container>
-       <Container maxWidth='lg' style={{display: "flex", textAlign: "start"}}>
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px",
-          textAlign: "start"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-       </Container>
-       <Divider
-        variant='fullwidth'
-        style={{width: "100%", backgroundColor: "white"}}
-       />
-       <br />
-       <Grid style={{color: "white"}}>
-        <Typography variant='body2' fontWight='bold'>
-         {" "}
-         Copyright 2018 Dumbtick
-        </Typography>
-
-        <Typography style={{color: "white"}} variant='h6' align='right'>
-         About &nbsp; &nbsp; &nbsp; Help &nbsp; &nbsp; &nbsp; Legal
-        </Typography>
-       </Grid>
-       <br />
-      </Container>
-     </Grid>
+     <Footer />
     </Grid>
    </div>
   );
@@ -276,7 +204,8 @@ class Body extends Component {
 
 const mapStateToProps = state => {
  return {
-  cates: state.HomeReduces
+  cates: state.HomeReduces,
+  event: state.HomeReduces
  };
 };
 

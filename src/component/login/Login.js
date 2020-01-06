@@ -33,7 +33,8 @@ const styles = theme => ({
 });
 
 const things = <p textDeclaration='underline'> term service</p>;
-
+// #ff6666
+//#ffe6e6
 class TransitionsModal extends Component {
  constructor() {
   super();
@@ -48,7 +49,6 @@ class TransitionsModal extends Component {
  }
 
  onSave = event => {
-  event.preventDefault();
   let form = {
    username: this.state.username,
    password: this.state.password
@@ -60,6 +60,7 @@ class TransitionsModal extends Component {
     localStorage.setItem("user_id", res.data.user.id);
     localStorage.setItem("name", res.data.user.name);
     localStorage.setItem("image", res.data.user.image);
+    localStorage.setItem("phone", res.data.user.phone);
     localStorage.setItem("email", res.data.user.email);
     localStorage.setItem("token", res.data.token);
     console.log("login success");
@@ -85,6 +86,13 @@ class TransitionsModal extends Component {
  handleEdit() {
   this.setState({mode: "edit"});
  }
+
+ keyPress = e => {
+  console.log("press");
+  if (e.key === "Enter") {
+   this.onSave();
+  }
+ };
 
  handleOpen = () => {
   this.setState({
@@ -142,7 +150,7 @@ class TransitionsModal extends Component {
           align='center'
           style={{marginLeft: 29.1, marginInlineEnd: 28.19}}
          >
-          <h2 id='transition-modal-title'>Join Medium</h2>
+          <h2 id='transition-modal-title'>Login</h2>
           <p
            style={{maxWidth: "414.5px", color: "grey"}}
            id='transition-modal-description'
@@ -183,6 +191,7 @@ class TransitionsModal extends Component {
               type={this.state.hidden ? "password" : "text"}
               value={this.state.password}
               onChange={this.handleChange}
+              onKeyPress={this.keyPress}
               InputProps={{
                endAdornment: (
                 <InputAdornment position='end'>

@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 export const LargeCard = props => {
  const classes = useStyles();
  return (
-  <CardActionArea>
+  <div>
    <div style={{border: "10px solid", borderColor: "#ff6666"}}>
     <div
      className={classes.display}
@@ -147,15 +147,23 @@ export const LargeCard = props => {
       </div>
      </div>
     </div>
-    <div style={{paddingTop: "20px", marginLeft: "auto", paddingRight: "20px"}}>
+    <div
+     style={{
+      paddingTop: "20px",
+      marginLeft: "auto",
+      paddingRight: "20px",
+      display: "block"
+     }}
+    >
      <Button
       variant='contained'
       style={{backgroundColor: "#ff6666", color: "white"}}
      >
       Confirm
      </Button>
+     <p style={{paddingLeft: "12px", fontSize: "20px"}}> Pending</p>
     </div>
    </div>
-  </CardActionArea>
+  </div>
  );
 };

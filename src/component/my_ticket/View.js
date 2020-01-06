@@ -6,6 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
 import {Divider, Button, Card} from "@material-ui/core";
+import "../home/homes.css";
 
 const useStyles = makeStyles(theme => ({
  largeCardPost: {
@@ -62,34 +63,47 @@ export const LargeCard = props => {
  const classes = useStyles();
  return (
   <CardActionArea>
-   <div style={{border: "10px solid", borderColor: "#ff6666"}}>
+   <div
+    style={{
+     borderLeft: "45px solid",
+     borderRight: "45px solid",
+     borderTop: "20px solid",
+     borderBottom: "20px solid",
+     borderColor: "rgb(100, 32, 163)"
+    }}
+   >
     <div
      className={classes.display}
      style={{paddingLeft: "20px", marginTop: "10px"}}
     >
      <div className={classes.align1}>
-      <Typography>
-       Bill Gates <br /> 2
-      </Typography>
+      <text className='texts1' style={{color: "black"}}>
+       {props.event.createdBy.name} <br /> {props.event.category.id}
+      </text>
      </div>
      <div
       className={classes.align2}
       style={{marginLeft: "auto", paddingRight: "30px"}}
      >
-      <Typography style={{fontSize: "12px"}}>
-       Face Value Rp. 300.000{" "}
-      </Typography>{" "}
+      <text className='texts1' style={{fontSize: "12px", color: "black"}}>
+       Face Value Rp. {props.total}
+      </text>
       <Typography style={{textAlign: "start"}}>-</Typography>
      </div>
     </div>
     <div className={classes.display} style={{paddingLeft: "20px"}}>
      <div style={{textAlign: "start"}}>
-      <Typography variant='h4' className={classes.text1}>
-       Raisa Live in Concert
+      <text
+       className='texts1'
+       style={{fontSize: "30px", fontWeight: "bolder", color: "black"}}
+      >
+       {props.event.title}
+      </text>
+      <Typography variant='body1' style={{color: "black"}}>
+       {props.event.start_time} at 18:00
       </Typography>
-      <Typography variant='body1'>Fri, 13 Des 2019 at 18:00</Typography>
-      <Typography variant='body2'>
-       Jl. pintu seratus gelora washington
+      <Typography variant='body2' style={{color: "black"}}>
+       {props.event.address}
       </Typography>
      </div>
      <div
@@ -100,7 +114,7 @@ export const LargeCard = props => {
        <CardMedia
         style={{paddingLeft: "20px"}}
         className={classes.image}
-        image='https://www.jakpost.travel/imgfiles/full/133/1333811/dazai-osamu-wallpaper.jpg'
+        image={props.event.img}
        />
       </div>
      </div>

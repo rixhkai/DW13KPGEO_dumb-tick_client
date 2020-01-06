@@ -12,7 +12,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import {withStyles} from "@material-ui/core/styles";
 import {LargeCard} from "./View";
 import {connect} from "react-redux";
-import {Category} from "../../redux/action/HomeAct";
+import {MyTicket} from "../../redux/action/MyTicketAct";
+import Footer from "../home/footer";
+import "../home/homes.css";
 
 const styles = theme => ({
  margin: {
@@ -51,117 +53,52 @@ const styles = theme => ({
 class Body extends Component {
  componentDidMount() {
   console.log("get category");
-  this.props.dispatch(Category());
+  const {id} = this.props.id;
+  this.props.dispatch(MyTicket(id, "approved"));
  }
  render() {
   const {classes} = this.props;
+  const data = this.props.tick.ticket;
   return (
    <div align='center'>
     <Grid>
      <Container maxWidth='lg'>
       <div className={classes.space}>
-       <Typography className={classes.margin} style={{color: "#ff6666"}}>
-        My Ticket
-       </Typography>
+       <h1 className='texts'>My Ticket</h1>
        <div className={classes.margin} style={{marginTop: "30px"}}>
         <div>
-         <Divider style={{height: "5px", backgroundColor: "#ff6666"}} />
+         <Divider style={{height: "5px", backgroundColor: "rgb(27, 1, 54)"}} />
         </div>
-        <div
-         style={{
-          paddingTop: "30px",
-          paddingBottom: "30px",
-          paddingLeft: "50px",
-          paddingRight: "50px"
-         }}
-        >
-         <LargeCard />
-        </div>
+        {data.map((item, index) => (
+         <div
+          style={{
+           align: "center",
+           paddingTop: "30px",
+           paddingBottom: "30px",
+           paddingLeft: "50px",
+           paddingRight: "50px",
+           margin: "0px auto 0px auto",
+           width: "900px"
+          }}
+         >
+          <LargeCard
+           index={index}
+           id={item.id}
+           quantity={item.quantity}
+           total={item.total_price}
+           status={item.status}
+           attach={item.attachment}
+           event={item.event}
+          />
+         </div>
+        ))}
        </div>
       </div>
      </Container>
 
      {/** footer */}
 
-     <Grid align='start' style={{backgroundColor: "#ff6666"}}>
-      <Container>
-       <Container maxWidth='lg' style={{display: "flex", textAlign: "start"}}>
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px",
-          textAlign: "start"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-       </Container>
-       <Divider
-        variant='fullwidth'
-        style={{width: "100%", backgroundColor: "white"}}
-       />
-       <br />
-       <Grid style={{color: "white"}}>
-        <Typography variant='body2' fontWight='bold'>
-         {" "}
-         Copyright 2018 Dumbtick
-        </Typography>
-
-        <Typography style={{color: "white"}} variant='h6' align='right'>
-         About &nbsp; &nbsp; &nbsp; Help &nbsp; &nbsp; &nbsp; Legal
-        </Typography>
-       </Grid>
-       <br />
-      </Container>
-     </Grid>
+     <Footer />
     </Grid>
    </div>
   );
@@ -170,7 +107,7 @@ class Body extends Component {
 
 const mapStateToProps = state => {
  return {
-  cates: state.HomeReduces
+  tick: state.TicketReducer
  };
 };
 

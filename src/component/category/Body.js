@@ -3,14 +3,15 @@ import {
  TextField,
  Container,
  InputAdornment,
- Typography,
- ButtonBase,
- Button
+ Typography
 } from "@material-ui/core";
 import {Grid, Divider} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import {withStyles} from "@material-ui/core/styles";
-import {LargeCard} from "../home/View";
+import View from "../home/View";
+import {connect} from "react-redux";
+import {Category} from "../../redux/action/CategoryAct";
+import Footer from "../home/footer";
 
 const styles = theme => ({
  margin: {
@@ -40,21 +41,50 @@ const styles = theme => ({
 });
 
 class Body extends Component {
+ constructor() {
+  super();
+  this.state = {
+   search: ""
+  };
+ }
+
+ componentDidMount() {
+  const {id} = this.props.id;
+  console.log("get event by category");
+  this.props.dispatch(Category(id));
+ }
+
+ handleChange = e => {
+  this.setState({[e.target.name]: e.target.value});
+ };
+
  render() {
   const {classes} = this.props;
+  const search = this.state.search;
+  const data = this.props.data.event;
+  const cats = data.category && data.category.name;
+  console.log(data);
+  //   const searchFilter = event.filter(event =>
+  //    event.start_time.toLowerCase().includes(search.toLowerCase())
+  //   );
   return (
    <div align='center'>
     <Grid>
      <Container maxWidth='lg'>
       <div className={classes.space}>
-       <Typography className={classes.margin}>Music</Typography>
+       <Typography className={classes.margin}>
+        {this.props.data.category ? this.props.data.category.name : null}
+       </Typography>
        <div className={classes.space2}>
         <Typography style={{color: "grey", marginRight: "30px"}}>
          Sort by :{" "}
         </Typography>
         <TextField
          style={{marginRight: "25px"}}
+         value={this.state.search}
+         name='search'
          placeholder='Choose Date'
+         onChange={this.handleChange}
          InputProps={{
           endAdornment: (
            <InputAdornment position='start'>
@@ -77,45 +107,21 @@ class Body extends Component {
        <div className={classes.space}>
         <div className={classes.space2}>
          <Grid container spacing={1}>
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-         </Grid>
-        </div>
-
-        <div className={classes.space2}>
-         <Grid container spacing={1}>
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-           <LargeCard />
-          </Grid>
+          {data.map((item, index) => (
+           <Grid item xs={12} sm={6} md={4}>
+            <View
+             index={index}
+             id={item.id}
+             title={item.title}
+             category={item.category}
+             startTime={item.start_time}
+             desc={item.description.substring(0, 110)}
+             img={item.img}
+             price={item.price}
+             favorite={item.favorite}
+            />
+           </Grid>
+          ))}
          </Grid>
         </div>
        </div>
@@ -123,90 +129,17 @@ class Body extends Component {
      </Container>
 
      {/** footer */}
-
-     <Grid align='start' style={{backgroundColor: "#ff6666"}}>
-      <Container>
-       <Container maxWidth='lg' style={{display: "flex", textAlign: "start"}}>
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px",
-          textAlign: "start"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-
-        <Grid
-         item
-         style={{
-          margin: "0px auto 0px auto",
-          marginRight: "30px",
-          maxWidth: "400px"
-         }}
-        >
-         <Typography className={classes.text} style={{color: "white"}}>
-          Discover valve corporate
-         </Typography>
-         <Typography variant='body2' style={{color: "white"}}>
-          Dota gameplay has massive change in late 2019... where's the whole
-          gameplay change.. there's outpost and new item on jungle
-         </Typography>
-         <br />
-         <br />
-        </Grid>
-       </Container>
-       <Divider
-        variant='fullwidth'
-        style={{width: "100%", backgroundColor: "white"}}
-       />
-       <br />
-       <Grid style={{color: "white"}}>
-        <Typography variant='body2' fontWight='bold'>
-         {" "}
-         Copyright 2018 Dumbtick
-        </Typography>
-
-        <Typography style={{color: "white"}} variant='h6' align='right'>
-         About &nbsp; &nbsp; &nbsp; Help &nbsp; &nbsp; &nbsp; Legal
-        </Typography>
-       </Grid>
-       <br />
-      </Container>
-     </Grid>
+     <Footer />
     </Grid>
    </div>
   );
  }
 }
 
-export default withStyles(styles)(Body);
+const mapStateToProps = state => {
+ return {
+  data: state.CategoryReducer
+ };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Body));
