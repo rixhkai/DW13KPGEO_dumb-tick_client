@@ -4,8 +4,14 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
-import InputWithIcon from "./FormLogin";
 import {Grid, withStyles} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import TextField from "@material-ui/core/TextField";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import axios from "axios";
 
 const styles = theme => ({
  modal: {
@@ -27,35 +33,66 @@ const styles = theme => ({
 });
 
 const things = <p textDeclaration='underline'> term service</p>;
-
+// #ff6666
+//#ffe6e6
 class TransitionsModal extends Component {
  constructor() {
   super();
   this.state = {
-   credentials: {email: "", password: ""},
+   hidden: true,
+   username: "",
+   password: "",
    setOpen: false,
    mode: "view"
   };
-  this.onChange = this.onChange.bind(this);
-  this.onSave = this.onSave.bind(this);
   this.handleEdit = this.handleEdit.bind(this);
  }
 
- onChange(event) {
-  const field = event.target.name;
-  const credentials = this.state.credentials;
-  credentials[field] = event.target.value;
-  return this.setState({credentials: credentials});
- }
+ onSave = event => {
+  let form = {
+   username: this.state.username,
+   password: this.state.password
+  };
+  axios
+   .post("http://localhost:5000/dumbtick/login", form)
+   .then(res => {
+    console.log(res);
+    localStorage.setItem("user_id", res.data.user.id);
+    localStorage.setItem("name", res.data.user.name);
+    localStorage.setItem("image", res.data.user.image);
+    localStorage.setItem("phone", res.data.user.phone);
+    localStorage.setItem("email", res.data.user.email);
+    localStorage.setItem("token", res.data.token);
+    console.log("login success");
+    if (window.location.pathname === "/") {
+     window.location.reload();
+    } else {
+     window.location.href = "/";
+    }
+   })
+   .catch(err => {
+    console.log(err);
+   });
+ };
 
- onSave(event) {
-  event.preventDefault();
-  this.props.actions.logInUser(this.state.credentials);
- }
+ handleChange = e => {
+  this.setState({[e.target.name]: e.target.value});
+ };
+
+ toggleShow = () => {
+  this.setState({hidden: !this.state.hidden});
+ };
 
  handleEdit() {
   this.setState({mode: "edit"});
  }
+
+ keyPress = e => {
+  console.log("press");
+  if (e.key === "Enter") {
+   this.onSave();
+  }
+ };
 
  handleOpen = () => {
   this.setState({
@@ -113,7 +150,7 @@ class TransitionsModal extends Component {
           align='center'
           style={{marginLeft: 29.1, marginInlineEnd: 28.19}}
          >
-          <h2 id='transition-modal-title'>Join Medium</h2>
+          <h2 id='transition-modal-title'>Login</h2>
           <p
            style={{maxWidth: "414.5px", color: "grey"}}
            id='transition-modal-description'
@@ -122,7 +159,71 @@ class TransitionsModal extends Component {
            amazing event to your inbox.
           </p>
 
-          <InputWithIcon />
+          <div>
+           <div className={classes.margin}>
+            <Grid align='center'>
+             <Grid item>
+              <TextField
+               style={{width: 280}}
+               inputProps={{style: {textAlign: "center"}}}
+               id='input-with-icon-grid'
+               label='username'
+               name='username'
+               value={this.state.username}
+               onChange={this.handleChange}
+               InputProps={{
+                endAdornment: (
+                 <InputAdornment position='start'>
+                  <InfoOutlinedIcon />
+                 </InputAdornment>
+                )
+               }}
+              />
+             </Grid>
+            </Grid>
+           </div>
+           <div className={classes.margin}>
+            <Grid align='center'>
+             <TextField
+              style={{width: "280px"}}
+              label='password'
+              name='password'
+              type={this.state.hidden ? "password" : "text"}
+              value={this.state.password}
+              onChange={this.handleChange}
+              onKeyPress={this.keyPress}
+              InputProps={{
+               endAdornment: (
+                <InputAdornment position='end'>
+                 <IconButton onClick={this.toggleShow}>
+                  {this.state.hidden ? (
+                   <VisibilityIcon />
+                  ) : (
+                   <VisibilityOffIcon />
+                  )}
+                 </IconButton>
+                </InputAdornment>
+               )
+              }}
+             />
+            </Grid>
+           </div>
+
+           <div className={classes.margin}>
+            <Grid align='center'>
+             <Button
+              onClick={this.onSave}
+              style={{
+               marginTop: "30px",
+               color: "white",
+               backgroundColor: "black"
+              }}
+             >
+              Login
+             </Button>
+            </Grid>
+           </div>
+          </div>
          </Grid>
 
          <Grid item>

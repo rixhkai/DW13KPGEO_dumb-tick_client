@@ -1,20 +1,22 @@
+import {GET_EVENT_FULFILLED, GET_CATS_FUL} from "../type";
+
 const initstate = {
  cats: [],
- today: []
+ event: []
 };
 
 const HomeReduces = (state = initstate, action) => {
  console.log(action.type);
  switch (action.type) {
-  case "GET_CATS_FULFILLED":
+  case GET_CATS_FUL:
    return {
     ...state,
     cats: action.payload.data
    };
-  case "GET_TODAYEVE_FULFILLED":
+  case GET_EVENT_FULFILLED:
    return {
     ...state,
-    today: action.payload.data
+    event: action.payload.data
    };
   default:
    return state;

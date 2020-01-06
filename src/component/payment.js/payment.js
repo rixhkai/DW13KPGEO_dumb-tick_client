@@ -6,18 +6,17 @@ import Body from "./Body";
 import "../home/homes.css";
 
 //prettier-ignore
-export const Details = (props) => {
+export const Payment = (props) => {
  return (
   <div>
-   <div className="primarys" style={{align: 'center'}}>
+   <div className="primarys" style={{align: "center"}}>
     {/** NavBar */}
      <PrimaryAppBar />
    </div>
 
    <div style={{marginTop: "100px"}}>
     <Grid>
-        {console.log(props.match.params.id)}
-     <Body id={props.match.params} />
+     <Body id={props.match.params}/>
     </Grid>
    </div>
   </div>

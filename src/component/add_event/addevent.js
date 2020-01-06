@@ -5,19 +5,17 @@ import {AppBar} from "@material-ui/core";
 import Body from "./Body";
 import "../home/homes.css";
 
-//prettier-ignore
-export const Details = (props) => {
+export const AddEvent = () => {
  return (
   <div>
-   <div className="primarys" style={{align: 'center'}}>
+   <div className='primarys' style={{align: "center"}}>
     {/** NavBar */}
-     <PrimaryAppBar />
+    <PrimaryAppBar />
    </div>
 
-   <div style={{marginTop: "100px"}}>
+   <div style={{marginTop: "120px"}}>
     <Grid>
-        {console.log(props.match.params.id)}
-     <Body id={props.match.params} />
+     <Body />
     </Grid>
    </div>
   </div>

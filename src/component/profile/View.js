@@ -1,4 +1,4 @@
-import React, {useState, Component} from "react";
+import React, {Component} from "react";
 import Grid from "@material-ui/core/Grid";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -40,7 +40,7 @@ const styles = theme => ({
  }
 });
 
-class View extends Component {
+class LargeCard extends Component {
  constructor() {
   super();
   this.state = {
@@ -49,17 +49,7 @@ class View extends Component {
  }
 
  handleClick = e => {
-  this.handleChange(e.currentTarget.value);
   this.handleFavorite();
- };
-
- handleChange = e => {
-  //   setFavoritess(e);
-  console.log(e);
-
-  console.log(this.state.favorite);
-  console.log(this.props.id);
-  //   console.log(this.props.favorite.id);
  };
 
  handleFavorite = () => {
@@ -100,14 +90,10 @@ class View extends Component {
     console.log(res + "test fav");
    }
   );
-  //   this.setState({
-  //    // favorite: this.props.favorite.id ? this.props.favorite.id : 0
-  //   });
  }
 
  render() {
   const {classes} = this.props;
-
   return (
    <Paper
     elevation={3}
@@ -117,8 +103,11 @@ class View extends Component {
      bordertTopRightRadius: "5px"
     }}
    >
-    <Link to={`/detail/${this.props.id}`} style={{textDecoration: "none"}}>
-     <CardMedia className={classes.imageLargeCard} image={this.props.img}>
+    <Link
+     to={`/detail/${this.props.event.id}`}
+     style={{textDecoration: "none"}}
+    >
+     <CardMedia className={classes.imageLargeCard} image={this.props.event.img}>
       <div style={{textAlign: "end", paddingTop: "5px"}}>
        <Typography
         variant='caption'
@@ -132,7 +121,7 @@ class View extends Component {
         }}
        >
         {"Rp. " +
-         parseFloat(this.props.price)
+         parseFloat(this.props.event.price)
           .toFixed(2)
           .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
        </Typography>
@@ -143,23 +132,20 @@ class View extends Component {
     <div align='start'>
      <Grid className={classes.largeCardPost} style={{display: "flex"}}>
       <Grid style={{color: "black"}}>
-       <h1>{this.props.title}</h1>
-       <p>{moment(this.props.startTime).format("ddd, DD MMM YYYY ")}</p>
+       <h1>{this.props.event.title}</h1>
+       <p>{moment(this.props.event.startTime).format("ddd, DD MMM YYYY ")}</p>
        <Grid>
-        <p>{this.props.desc}</p>
+        <p>{this.props.event.description.substring(0, 120)}</p>
        </Grid>
       </Grid>
 
-      <IconButton
-       //  value={this.props.favorite ? this.props.favorite.id : 0}
+      {/* <IconButton
        onClick={this.handleClick}
        size='small'
        style={{height: "25px", paddingRight: "10px"}}
       >
-       {/* prettier-ignore */}
-       {/* {this.state.favorite >= 1 ? <FavoriteIcon /> : <FavoriteBorderIcon />} */}
        {this.state.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-      </IconButton>
+      </IconButton> */}
      </Grid>
     </div>
    </Paper>
@@ -167,4 +153,4 @@ class View extends Component {
  }
 }
 
-export default withStyles(styles)(View);
+export default withStyles(styles)(LargeCard);

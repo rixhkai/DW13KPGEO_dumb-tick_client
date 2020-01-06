@@ -53,18 +53,16 @@ export const LargeCard = props => {
   <Card style={{borderRadius: "5px", width: "100%"}}>
    <CardActionArea>
     <Link style={{textDecoration: "none"}}>
-     <CardMedia
-      className={classes.imageLargeCard}
-      image='https://gamebrott.com/wp-content/uploads/2016/03/esport-gb-57-768x480.jpg'
-     />
+     {console.log(props.img + "gambar")}
+     <CardMedia className={classes.imageLargeCard} image={props.img} />
      <div align='start'>
       <Grid display='flex' className={classes.acount}>
        <Typography
         variant='h5'
         style={{marginLeft: "20px", fontWeight: "bold"}}
        >
-        Raisa live concer on your home <br />
-        <span style={{fontSize: "15px"}}>Music</span>
+        {props.title} <br />
+        <span style={{fontSize: "15px"}}>{props.catsName}</span>
        </Typography>
        <div
         style={{

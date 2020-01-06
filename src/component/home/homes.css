@@ -1,0 +1,28 @@
+.primarys {
+ background-color: rgb(20, 2, 41);
+}
+
+.foots {
+ background-color: rgb(20, 2, 41);
+ bottom: 0;
+ width: 100%;
+}
+
+.titles {
+ font-family: Audio Wide;
+ color: rgb(207, 180, 235);
+}
+
+.texts {
+ font-family: Audio Wide;
+ color: rgb(27, 1, 54);
+}
+
+.texts1 {
+ font-family: Nunito Sans;
+}
+
+.ftitles {
+ font-family: Marienda One;
+ color: rgb(100, 32, 163);
+}
